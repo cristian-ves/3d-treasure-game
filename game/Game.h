@@ -3,16 +3,19 @@
 
 #include <iostream>
 #include <sstream>
+#include "Board.h"
 
 using namespace std;
 
 class Game
 {
 private:
+    Board board;
+
 public:
     void startGame()
     {
-        cout << "hola";
+        board.createBoard();
     }
 };
 

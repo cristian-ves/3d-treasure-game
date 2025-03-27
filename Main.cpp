@@ -1,10 +1,12 @@
 #include <iostream>
+#include "game/Game.h"
 
 using namespace std;
 
 int main()
 {
     int choice;
+    Game game;
 
     do
     {
@@ -17,6 +19,8 @@ int main()
         switch (choice)
         {
         case 1:
+            cout << "\nStarting the game...\n";
+            game.startGame();
             break;
         case 0:
             cout << "\nExiting the game. Goodbye!" << endl;
