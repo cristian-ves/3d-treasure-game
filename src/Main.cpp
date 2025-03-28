@@ -10,7 +10,7 @@ int main()
 
     do
     {
-        cout << "\n=== 3d Treasure Game ===" << endl;
+        cout << "\n=== 3D Treasure Game ===" << endl;
         cout << "1. Start Game" << endl;
         cout << "0. Exit" << endl;
         cout << "Choose an option: ";
