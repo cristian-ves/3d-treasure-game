@@ -1,12 +1,12 @@
-#include <iostream>
 #include "game/Game.h"
+#include <iostream>
 
 using namespace std;
 
 int main()
 {
     int choice;
-    Game game;
+    Game game; 
 
     do
     {

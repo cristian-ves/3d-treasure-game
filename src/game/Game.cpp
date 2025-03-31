@@ -4,4 +4,5 @@
 void Game::startGame()
 {
     board.createBoard();
+    board.placeTreasure();
 }
