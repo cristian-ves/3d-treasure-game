@@ -19,6 +19,7 @@ public:
 
     void createBoard();
     void placeTreasure();
+    void placeElements(float percentage, CellContent::Type type, string text);
 };
 
 #endif

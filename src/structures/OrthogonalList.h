@@ -1,6 +1,8 @@
 #ifndef ORTHOGONAL_LIST_H
 #define ORTHOGONAL_LIST_H
 
+#include "RandomList.h"
+
 #include <iostream>
 using namespace std;
 
@@ -8,16 +10,9 @@ template <typename T>
 struct NodeOL
 {
     T data;
-    NodeOL<T> *up;
-    NodeOL<T> *down;
-    NodeOL<T> *left;
-    NodeOL<T> *right;
-    NodeOL<T> *front;
-    NodeOL<T> *back;
+    NodeOL<T> *up, *down, *left, *right, *front, *back;
 
-    int col;
-    int row;
-    int layer;
+    int col, row, layer;
 
     NodeOL(const T &value);
 };
@@ -30,9 +25,8 @@ class OrthogonalList
 {
 private:
     NodeOL<T> *head;
-    int rows;
-    int cols;
-    int layers;
+    int rows, cols, layers;
+    RandomList<NodeOL<T>*> randomList;
 
     void initializeEmptyList();
 
@@ -47,6 +41,9 @@ public:
     int getCols() const;
     int getLayers() const;
     NodeOL<T> *getHead() const;
+
+    NodeOL<T> *getRandomNode();
+    int getSize();
 };
 
 template <typename T>
@@ -65,6 +62,7 @@ void OrthogonalList<T>::initializeEmptyList()
     head->col = 0;
     head->row = 0;
     head->layer = 0;
+    randomList.addNode(head);
 
     // Creating first layer
     NodeOL<T> *currentLayer = head;
@@ -74,6 +72,8 @@ void OrthogonalList<T>::initializeEmptyList()
         newFront->row = 0;
         newFront->col = 0;
         newFront->layer = l;
+        randomList.addNode(newFront);
+        
         currentLayer->front = newFront;
         newFront->back = currentLayer;
 
@@ -88,6 +88,7 @@ void OrthogonalList<T>::initializeEmptyList()
         newRight->row = 0;
         newRight->col = c;
         newRight->layer = 0;
+        randomList.addNode(newRight);
 
         currentCol->right = newRight;
         newRight->left = currentCol;
@@ -101,6 +102,7 @@ void OrthogonalList<T>::initializeEmptyList()
             newFront->row = 0;
             newFront->col = c;
             newFront->layer = l;
+            randomList.addNode(newFront);
 
             currentRight->front = newFront;
             newFront->back = currentRight;
@@ -123,6 +125,7 @@ void OrthogonalList<T>::initializeEmptyList()
         newRow->row = r;
         newRow->col = 0;
         newRow->layer = 0;
+        randomList.addNode(newRow);
 
         currentRow->down = newRow;
         newRow->up = currentRow;
@@ -136,6 +139,7 @@ void OrthogonalList<T>::initializeEmptyList()
             newLayer->row = r;
             newLayer->col = 0;
             newLayer->layer = l;
+            randomList.addNode(newLayer);
 
             newLayer->back = currentDown;
             currentDown->front = newLayer;
@@ -156,6 +160,7 @@ void OrthogonalList<T>::initializeEmptyList()
             newCol->row = r;
             newCol->col = c;
             newCol->layer = 0;
+            randomList.addNode(newCol);
 
             currentDown->right = newCol;
             newCol->left = currentDown;
@@ -172,6 +177,7 @@ void OrthogonalList<T>::initializeEmptyList()
                 newLayer->row = r;
                 newLayer->col = c;
                 newLayer->layer = l;
+                randomList.addNode(newLayer);
 
                 newLayer->back = currentDown;
                 currentDown->front = newLayer;
@@ -232,6 +238,16 @@ NodeOL<T> *OrthogonalList<T>::getNode(int row, int col, int layer) const
 }
 
 template <typename T>
+int OrthogonalList<T>::getSize() {
+    return cols * rows * layers;
+}
+
+template <typename T>
+NodeOL<T>* OrthogonalList<T>::getRandomNode() {
+    return randomList.enqueue();
+}
+
+template <typename T>
 int OrthogonalList<T>::getRows() const { return rows; }
 
 template <typename T>
@@ -243,4 +259,4 @@ int OrthogonalList<T>::getLayers() const { return layers; }
 template <typename T>
 NodeOL<T> *OrthogonalList<T>::getHead() const { return head; }
 
-#endif 
+#endif

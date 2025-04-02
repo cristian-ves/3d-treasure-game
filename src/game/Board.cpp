@@ -2,9 +2,10 @@
 
 #include <cstdlib>
 #include <ctime>
+#include <cmath>
 
 Board::Board() : list(1,1,1){
-
+    srand(time(0));
 }
 
 void Board::getDimensionValue(int &n, string text)
@@ -31,24 +32,23 @@ void Board::createBoard()
 }
 
 void Board::placeTreasure() {
-    srand(time(0));
 
-    NodeOL<CellContent>* treasureCell = getRandomEmptyCell();
+    NodeOL<CellContent>* treasureCell = list.getRandomNode();
     if(treasureCell) {
         treasureCell->data.type = CellContent::TREASURE;
         cout << "Treasure placed at a random empty cell! location: x=" << treasureCell->col << " y=" << treasureCell->row << " z=" << treasureCell->layer << endl;
-        cout << CellContent::getTypeText(treasureCell->data.type) << endl;
     }
 }
 
-NodeOL<CellContent>* Board::getRandomEmptyCell() {
-    NodeOL<CellContent>* cell;
-    do {
-        int x = rand() % list.getCols();
-        int y = rand() % list.getRows();
-        int z = rand() % list.getLayers();
-        cell = list.getNode(x,y,z);
-    } while(cell == nullptr || cell->data.type != CellContent::EMPTY);
-
-    return cell;
+void Board::placeElements(float percentage, CellContent::Type type, string text) {
+    int n = round(list.getSize() * percentage);
+    for (int i = 0; i < n; i++)
+    {
+        NodeOL<CellContent>* cell = list.getRandomNode();
+        if(cell) {
+            cell->data.type = type;
+            cout << text << " placed at a random empty cell! location: x=" << cell->col << " y=" << cell->row << " z=" << cell->layer << endl;
+        }   
+    }
+    
 }
