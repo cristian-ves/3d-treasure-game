@@ -1,0 +1,9 @@
+# ninja log v6
+2	171	1743658523821311852	CMakeFiles/3d_treasure_game.dir/src/game/Game.cpp.o	f7e592cf1df81487
+1	187	1743658523820311836	CMakeFiles/3d_treasure_game.dir/src/main.cpp.o	7d021a2dcd5216b3
+1	203	1743658523820311836	CMakeFiles/3d_treasure_game.dir/src/game/Board.cpp.o	919c4d3d8f010de3
+203	246	1743658524022314983	3d_treasure_game	757014b069f63abe
+1	146	1743658735750878660	CMakeFiles/3d_treasure_game.dir/src/main.cpp.o	7d021a2dcd5216b3
+1	149	1743658735750878660	CMakeFiles/3d_treasure_game.dir/src/game/Game.cpp.o	f7e592cf1df81487
+1	190	1743658735750878660	CMakeFiles/3d_treasure_game.dir/src/game/Board.cpp.o	919c4d3d8f010de3
+190	240	1743658735939881851	3d_treasure_game	757014b069f63abe

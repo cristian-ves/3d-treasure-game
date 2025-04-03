@@ -1,0 +1,3 @@
+/home/alejandro/Desktop/3d-treasure-game/cmake-build-debug/CMakeFiles/3d_treasure_game.dir
+/home/alejandro/Desktop/3d-treasure-game/cmake-build-debug/CMakeFiles/edit_cache.dir
+/home/alejandro/Desktop/3d-treasure-game/cmake-build-debug/CMakeFiles/rebuild_cache.dir
