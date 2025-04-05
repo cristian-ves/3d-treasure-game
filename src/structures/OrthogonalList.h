@@ -44,11 +44,13 @@ public:
     NodeOL<T> *getHead() const;
 
     NodeOL<T> *getRandomNode();
+    RandomList<NodeOL<T>*>* getRandomList();
     int getSize();
+    void print();
 };
 
 template <typename T>
-OrthogonalList<T>::OrthogonalList(int rows, int cols, int layers) : head(nullptr), rows(rows), cols(cols), layers(layers)
+OrthogonalList<T>::OrthogonalList(int cols, int rows, int layers) : head(nullptr), cols(cols), rows(rows), layers(layers)
 {
     initializeEmptyList();
 }
@@ -183,6 +185,8 @@ void OrthogonalList<T>::initializeEmptyList()
                 newLayer->back = currentDown;
                 currentDown->front = newLayer;
 
+                // For some reason there's a bug here when I try to do a board of more than 3 columns
+
                 if (currentUp->front)
                 {
                     currentUp = currentUp->front;
@@ -245,9 +249,9 @@ int OrthogonalList<T>::getSize() {
 
 template <typename T>
 NodeOL<T>* OrthogonalList<T>::getRandomNode() {
-    NodeOL<T>* returnedNode = randomList.enqueue();
+    NodeOL<T>* returnedNode = randomList.dequeue();
     while(returnedNode->data.type == CellContent::HINT && returnedNode == nullptr) {
-        returnedNode = randomList.enqueue();
+        returnedNode = randomList.dequeue();
     }
     return returnedNode;
 }
@@ -263,5 +267,61 @@ int OrthogonalList<T>::getLayers() const { return layers; }
 
 template <typename T>
 NodeOL<T> *OrthogonalList<T>::getHead() const { return head; }
+
+template <typename T>
+RandomList<NodeOL<T>*>* OrthogonalList<T>::getRandomList()
+{
+    return &randomList;
+}
+
+
+template <typename T>
+void OrthogonalList<T>::print()
+{
+    NodeOL<T> *layerStart = head;
+
+    for (int z = 0; z < layers; ++z)
+    {
+        cout << "Board in z = " << z << ":\n";
+
+        NodeOL<T> *rowStart = layerStart;
+
+        for (int r = 0; r < rows; ++r)
+        {
+            NodeOL<T> *current = rowStart;
+
+            for (int c = 0; c < cols; ++c)
+            {
+                if (current != nullptr)
+                {
+                    string cellText = CellContent::getTypeText(current->data.type);
+                    if (current->data.type == CellContent::HINT)
+                    {
+                        cellText = CellContent::getHintText(current->data.hint);
+                    }
+                    cout << cellText << " ";
+
+                    current = current->right;
+                }
+                else
+                {
+                    cout << "Invalid ";
+                }
+            }
+            cout << endl;
+
+            if (rowStart != nullptr)
+                rowStart = rowStart->down;
+        }
+
+        cout << "------------------------------\n";
+
+        if (layerStart != nullptr)
+            layerStart = layerStart->front;
+    }
+}
+
+
+
 
 #endif

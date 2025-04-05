@@ -5,6 +5,8 @@
 #include <ctime>
 #include <iostream>
 
+#include "../utils/CellContent.h"
+
 using namespace std;
 
 template <typename T>
@@ -34,8 +36,10 @@ public:
 
     void addNode(T value);
     bool isEmpty();
+    int getSize();
+    void remove(CellContent* cellContent);
 
-    T enqueue();
+    T dequeue();
 
 };
 
@@ -91,7 +95,7 @@ void RandomList<T>::addNode(T value) {
 }
 
 template <typename T>
-T RandomList<T>::enqueue() {
+T RandomList<T>::dequeue() {
     // Remove the front element from the random list and return its stored value.
     if(size == 0) return nullptr;
     NodeRl<T>* temp = front;
@@ -100,6 +104,32 @@ T RandomList<T>::enqueue() {
 
     size--;
     return temp->data;
+}
+
+template <typename T>
+int RandomList<T>::getSize()
+{
+    return size;
+}
+
+template <typename T>
+void RandomList<T>::remove(CellContent* cellContent)
+{
+    if (cellContent == nullptr) return;
+    NodeRl<T>* curr = tail;
+    for (int i = 0; i < size; i++)
+    {
+        if (cellContent == &curr->data->data)
+        {
+            if (curr->next != nullptr)
+                curr->next->prev = curr->prev;
+            if (curr->prev != nullptr)
+                curr->prev->next = curr->next;
+            size--;
+            return;
+        }
+        curr = curr->next;
+    }
 }
 
 // template <typename T>

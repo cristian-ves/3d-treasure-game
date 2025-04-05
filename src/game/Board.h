@@ -23,6 +23,8 @@ public:
     void placeTreasure();
     void placeElements(float percentage, CellContent::Type type, string text);
     void placeHints();
+    void placeColdHints();
+    void print();
 };
 
 #endif

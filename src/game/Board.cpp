@@ -45,7 +45,10 @@ void Board::placeElements(float percentage, CellContent::Type type, string text)
     for (int i = 0; i < n; i++)
     {
         NodeOL<CellContent>* cell = list.getRandomNode();
-        if(cell) {
+        if (cell->data.type == CellContent::TREASURE || cell->data.type == CellContent::HINT)
+        {
+            i--;
+        } else if(cell) {
             cell->data.type = type;
             cout << text << " placed at a random empty cell! location: x=" << cell->col << " y=" << cell->row << " z=" << cell->layer << endl;
         }   
@@ -63,9 +66,11 @@ void Board::placeHints(){
 
 void Board::applyHotHint(NodeOL<CellContent>* adjacentNode) {
     if (!adjacentNode) return;
-    
+
     adjacentNode->data.type = CellContent::HINT;
     adjacentNode->data.hint = CellContent::HOT;
+    list.getRandomList()->remove(&adjacentNode->data);
+
 
     NodeOL<CellContent>* neighbors[] = {
         adjacentNode->front,
@@ -78,20 +83,32 @@ void Board::applyHotHint(NodeOL<CellContent>* adjacentNode) {
 
     for (int i = 0; i < 6; i++){
         NodeOL<CellContent>* neighbor = neighbors[i];
-        if (neighbor) {
-            applyWarmHint(neighbor->front);
-            applyWarmHint(neighbor->back);
-            applyWarmHint(neighbor->right);
-            applyWarmHint(neighbor->left);
-            applyWarmHint(neighbor->up);
-            applyWarmHint(neighbor->down);
-        }
+        applyWarmHint(neighbor);
     }
 }
 
 void Board::applyWarmHint(NodeOL<CellContent>* adjacentNode) {
-    if (adjacentNode && adjacentNode != nullptr && adjacentNode->data.type != CellContent::TREASURE) {
+    if (adjacentNode != nullptr && adjacentNode->data.type != CellContent::TREASURE && adjacentNode->data.type != CellContent::HINT) {
         adjacentNode->data.type = CellContent::HINT;
         adjacentNode->data.hint = CellContent::WARM;
+        list.getRandomList()->remove(&adjacentNode->data);
     }
+}
+
+void Board::placeColdHints()
+{
+    RandomList<NodeOL<CellContent>*>* randomList = list.getRandomList();
+    int n = floor(randomList->getSize() / 2);
+
+    for (int i = 0; i < n; i++)
+    {
+        NodeOL<CellContent>* cell = list.getRandomNode();
+        cell->data.type = CellContent::HINT;
+        cell->data.hint = CellContent::COLD;
+    }
+}
+
+void Board::print()
+{
+    list.print();
 }
